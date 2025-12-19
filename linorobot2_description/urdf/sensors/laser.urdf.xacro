@@ -1,41 +1,51 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:property name="M_PI" value="3.1415926535897931" />
+  <xacro:property name="ld_radius" value="0.04" />
+  <xacro:property name="ld_height" value="0.05" />
+  <xacro:property name="ld_mass" value="0.16" />
   <xacro:macro name="laser" params="*origin update_rate ray_count min_angle max_angle min_range max_range frame_id topic_name">
     <link name="${frame_id}">
       <visual>
-        <origin xyz="0 0 -0.025" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.0375" length="0.05"/>
+          <!-- <cylinder radius="0.0375" length="0.05"/> -->
+          <mesh filename="package://linorobot2_description/meshes/lds.stl" scale="0.001 0.001 0.001"/>
         </geometry>
-        <material name="green">
-            <color rgba="0.003 0.639 0.223 1.0"/>
+        <material name="dark">
+          <color rgba="0.3 0.3 0.3 1.0"/>
         </material>
       </visual>
       <collision>
-        <origin xyz="0 0 -0.025" rpy="0 0 0"/>
+        <origin xyz="0.015 0 -0.015" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.0375" length="0.05"/>
+          <cylinder radius="${ld_radius}" length="${ld_height}"/>
         </geometry>
       </collision>
 
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.1"/>
-        <inertia ixx="${(2/5) * 0.1 * (0.0375 * 0.0375)}" ixy="0" ixz="0"
-                 iyy="${(2/5) * 0.1 * (0.0375 * 0.0375)}" iyz="0"
-                 izz="${(2/5) * 0.1 * (0.0375 * 0.0375)}" />
+        <mass value="${ld_mass}"/>
+        <inertia ixx="${(1/12) * ld_mass * (3*ld_radius*ld_radius + ld_height*ld_height)}" ixy="0" ixz="0"
+                 iyy="${(1/12) * ld_mass * (3*ld_radius*ld_radius + ld_height*ld_height)}" iyz="0"
+                 izz="${(1/2) * ld_mass * (ld_radius*ld_radius)}" />
       </inertial>
     </link>
 
     <gazebo reference="${frame_id}">  
       <visual>  
         <material>
-          <ambient>0.003 0.639 0.223 1.0</ambient>  
+          <!-- <ambient>0.003 0.639 0.223 1.0</ambient>  
           <diffuse>0.003 0.639 0.223 1.0</diffuse>  
           <specular>0.003 0.639 0.223 1.0</specular>  
-          <emissive>0.0 0.0 0.0 0.0</emissive>  
+          <emissive>0.0 0.0 0.0 0.0</emissive>   -->
+
+          <!-- <ambient>0.3 0.3 0.3 1.0</ambient>  
+          <diffuse>0.3 0.3 0.3 1.0</diffuse>  
+          <specular>0.1 0.1 0.1 1.0</specular> 
+          <emissive>0.0 0.0 0.0 0.0</emissive> -->
         </material>
       </visual> 
+      <material>Gazebo/FlatBlack</material>
     </gazebo>
 
     <joint name="${frame_id}_to_base_link" type="fixed">

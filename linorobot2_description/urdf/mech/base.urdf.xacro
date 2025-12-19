@@ -5,47 +5,55 @@
     
     <link name="base_link">
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="-0.0276 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="${length} ${width} ${height}"/>
+          <!-- <box size="${length} ${width} ${height}"/> -->
           <!-- <mesh filename="" scale="0.001 0.001 0.001"/> -->
+          <mesh filename="package://linorobot2_description/meshes/lino_base.STL" scale="0.001 0.001 0.001"/>
         </geometry>
-        <material name="yellow">
-          <color rgba="0.8784 0.6627 0.6627 1.0"/>
+        <material name="light_black">
+          <color rgba="0.4 0.4 0.4 1.0"/>
         </material>
       </visual>
       
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="-0.0276 0 ${height/2}" rpy="0 0 0"/>
         <geometry>
           <box size="${length} ${width} ${height}"/>
         </geometry>
       </collision>
 
       <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="-0.02957230 -0.00249250 0.04657955" rpy="0 0 0"/>
         <mass value="${mass}"/>
-        <inertia ixx="${(1/12) * mass * ((width  * width)  + (height * height))}" ixy="0.0" ixz="0.0"
-                 iyy="${(1/12) * mass * ((length * length) + (height * height))}" iyz="0.0"
-                 izz="${(1/12) * mass * ((length * length) + (width  * width))}"/>
+        <inertia ixx="0.00382227" ixy="-0.00007090" ixz="-0.00008756"
+                 iyy="0.00381152" iyz="-0.00003095"
+                 izz="0.00291391"/>
       </inertial>
     </link>
 
     <gazebo reference="base_link">  
       <visual>  
         <material>
-          <ambient>0.8392 0.6314 0.0 1.0</ambient>  
+          <!-- <ambient>0.8392 0.6314 0.0 1.0</ambient>  
           <diffuse>0.8392 0.6314 0.0 1.0</diffuse>  
           <specular>0.99 0.99 0.99 1.0</specular>  
           <emissive>0.0 0.0 0.0 0.0</emissive>  
+          <ambient>0.4 0.4 0.4 1.0</ambient>   -->
+
+          <!-- <ambient>0.4 0.4 0.4 1.0</ambient>  
+          <diffuse>0.4 0.4 0.4 1.0</diffuse>  
+          <specular>0.2 0.2 0.2 1.0</specular>
+          <emissive>0.0 0.0 0.0 0.0</emissive> -->
         </material>
       </visual> 
+      <material>Gazebo/White</material>
     </gazebo>
 
     <joint name="base_to_footprint" type="fixed">
       <parent link="base_footprint"/>
       <child link="base_link"/>
-      <origin xyz="0 0 ${wheel_radius - wheel_pos_z}" rpy="0 0 0"/>
+      <origin xyz="0 0 0.0092" rpy="0 0 0"/>
     </joint>
   </xacro:macro>
 </robot>

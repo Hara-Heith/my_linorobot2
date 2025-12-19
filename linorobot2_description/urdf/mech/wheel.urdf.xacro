@@ -3,12 +3,13 @@
   <xacro:macro name="wheel" params="side radius width pos_x pos_y pos_z mass">
     <link name="${side}_wheel_link">
       <visual>
-        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="${radius}" length="${width}"/>
+          <!-- <cylinder radius="${radius}" length="${width}"/> -->
+          <mesh filename="package://linorobot2_description/meshes/wheel_${side}.STL" scale="0.001 0.001 0.001"/>
         </geometry>
-        <material name="blue">
-            <color rgba="0.1764 0.4588 0.8509 1.0"/>
+        <material name="dark">
+          <color rgba="0.3 0.3 0.3 1.0"/>
         </material>
       </visual>
       <collision>
@@ -21,20 +22,26 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="${mass}"/>
-        <inertia ixx="${(2/5) * mass * (radius * radius)}" ixy="0" ixz="0"
-                 iyy="${(2/5) * mass * (radius * radius)}" iyz="0"
-                 izz="${(2/5) * mass * (radius * radius)}" />
+        <inertia ixx="${(1/12) * mass * (3*radius*radius + width*width)}" ixy="0" ixz="0"
+                 iyy="${(1/2) * mass * (radius*radius)}" iyz="0"
+                 izz="${(1/12) * mass * (3*radius*radius + width*width)}" />
       </inertial>
     </link>
     <gazebo reference="${side}_wheel_link">  
       <visual>  
         <material>
-          <ambient>0.1764 0.4588 0.8509 1.0</ambient>  
+          <!-- <ambient>0.1764 0.4588 0.8509 1.0</ambient>  
           <diffuse>0.1764 0.4588 0.8509 1.0</diffuse>  
           <specular>0.1764 0.4588 0.8509 1.0</specular>  
-          <emissive>0.0 0.0 0.0 0.0</emissive>  
+          <emissive>0.0 0.0 0.0 0.0</emissive>   -->
+
+          <!-- <ambient>0.3 0.3 0.3 1.0</ambient>
+          <diffuse>0.3 0.3 0.3 1.0</diffuse>
+          <specular>0.05 0.05 0.05 1.0</specular>
+          <emissive>0.0 0.0 0.0 0.0</emissive> -->
         </material>
       </visual>  
+      <material>Gazebo/FlatBlack</material>
     </gazebo>
     <joint name="${side}_wheel_joint" type="continuous">
       <axis xyz="0 1 0" />
